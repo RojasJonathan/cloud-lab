@@ -1,5 +1,5 @@
-resource "aws_s3_bucket" "evidence" {
-  bucket_prefix = "cloud-grc-evidence-"
+resource "aws_s3_bucket" "grc_lab" {
+  bucket_prefix = "grc-cloud-lab-"
 
   tags = {
     Project     = "Cloud GRC Lab"
