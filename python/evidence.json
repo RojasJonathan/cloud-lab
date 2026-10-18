@@ -1,0 +1,15 @@
+{
+    "bucket_name": "grc-cloud-lab-1afbb4f001dd19f5c3dabdacba",
+    "timestamp": "2026-10-18T16:23:08.463303+00:00",
+    "versioning_status": "Enabled",
+    "public_access_block": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+    },
+    "control_results": {
+        "S3-001": "PASS",
+        "S3-002": "PASS"
+    }
+}

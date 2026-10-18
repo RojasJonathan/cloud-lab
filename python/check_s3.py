@@ -1,4 +1,6 @@
 import boto3
+import json
+from datetime import datetime, UTC
 
 # Loud our AWS CLI profile
 session = boto3.Session(profile_name="cloud-lab")
@@ -26,18 +28,45 @@ status = versioning.get("Status", "Disabled")
 print("Versioning status:", status)
 
 if status== "Enabled":
-    print("Control S3-001: PASS")
+    s3_001_result = "PASS"
 else:
-    print("Control S3-001: FAIL")
+    s3_001_result = "FAIL"
+
+print("Control S3-001:", s3_001_result)
 
 # Retrive the bucket's public access block settings
 public_access = s3.get_public_access_block(Bucket=bucket_name)
 
-#Extract the configuration
+# Extract the configuration
 config = public_access["PublicAccessBlockConfiguration"]
 
 #Check whether all four protections are enabled
 if all(config.values()):
-    print("Control S3-002: PASS")
+    s3_002_result = "PASS"
 else:
-    print("Control S3-002: FAIL")
+    s3_002_result = "FAIL"
+
+print("Control S3-002:", s3_002_result)
+
+#Check current date and time
+
+timestamp = datetime.now(UTC).isoformat()
+print(timestamp)
+
+# Store results in dictionary
+evidence = {
+    "bucket_name": bucket_name,
+    "timestamp": timestamp,
+    "versioning_status": status,
+    "public_access_block": config,
+    "control_results": {
+        "S3-001": s3_001_result,
+        "S3-002": s3_002_result
+    }
+}
+
+print(evidence)
+
+# Store evidence dictionary in json
+with open("evidence.json", "w") as file:
+    json.dump(evidence, file, indent=4)
