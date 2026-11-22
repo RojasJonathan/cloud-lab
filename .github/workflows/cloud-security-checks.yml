@@ -33,10 +33,16 @@ jobs:
         working-directory: python
         run: python check_s3.py
 
+      - name: Generate Control assessment summary
+        working-directory: python
+        run: python build_control_summary.py
+
       - name: Upload evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: s3-security-evidence
-          path: python/evidence.json
+          path: |
+            python/evidence.json
+            python/control-summary.json
           if-no-files-found: error
