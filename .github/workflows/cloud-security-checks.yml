@@ -5,10 +5,14 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 jobs:
   security-checks:
     runs-on: ubuntu-latest
+    environment:
+        name: github-pages
 
     steps:
       - name: Checkout repository
@@ -46,3 +50,19 @@ jobs:
             python/evidence.json
             python/control-summary.json
           if-no-files-found: error
+
+      - name: Prepare public report
+        if: success()
+        run: |
+          mkdir -p public
+          cp python/control-summary.json public/control-summary.json
+
+      - name: Upload GitHub Pages artifact
+        if: success()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: actions/deploy-pages@v4
