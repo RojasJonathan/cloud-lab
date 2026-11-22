@@ -3,7 +3,7 @@ import json
 from datetime import datetime, UTC
 
 # Loud our AWS CLI profile
-session = boto3.Session(profile_name="cloud-lab")
+session = boto3.Session()
 
 # Create an S3 client
 s3 = session.client("s3")
